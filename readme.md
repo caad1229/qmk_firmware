@@ -1,3 +1,85 @@
+# corne cherry 組み立て
+https://github.com/foostan/crkbd/blob/master/corne-cherry/doc/buildguide_jp.md
+
+# build and install firmware
+
+## prepare
+
+- github から clone する
+
+```bash
+git clone git@github.com:caad1229/qmk_firmware.git
+cd qmk_firmware
+git submodule init
+git submodule update
+
+# setup
+./util/qmk_install.sh
+```
+
+
+## build
+
+```bash
+make crkbd:default
+```
+
+## install
+
+```
+# https://qiita.com/hokita222/items/a5567d955923125b93ed
+# ubuntu の場合 これ止めないとポート塞いでいて失敗する
+sudo systemctl stop ModemManager.service
+sudo make crkbd:default:avrdude
+  # スイッチ押す
+```
+
+-------------------------
+# build and wiring
+
+## QMK : https://docs.qmk.fm/#/newbs_getting_started
+
+### install
+
+```bash
+sudo apt install git python3 python3-pip
+python3 -m pip install --user qmk
+qmk setup
+  # 全部 yes
+```
+
+### build
+
+- ubuntu の場合の準備
+
+# https://qiita.com/hokita222/items/a5567d955923125b93ed
+# これ止めないとポート塞いでいて失敗する
+sudo systemctl stop ModemManager.service
+
+- qmk download
+
+```bash
+qmk compile -kb crkbd -km default
+cd ./qmk_firmware
+```
+
+- build と書き込み
+
+```
+# build
+make crkbd:default
+#  make [キーボードフォルダ名]:[キーマップフォルダ名]:[書き込み先ブートローダー]
+#   1. crkbd   : device
+#   2. default : key map
+#   3. avrdude : pro micro
+
+# 書き込み ※ sudo でないと失敗する
+sudo make crkbd:default:avrdude
+  # keyboard 指す
+  # 書き込み成功するはず
+```
+
+
 # Quantum Mechanical Keyboard Firmware
 
 [![Current Version](https://img.shields.io/github/tag/qmk/qmk_firmware.svg)](https://github.com/qmk/qmk_firmware/tags)
